@@ -1,11 +1,11 @@
 import { StatusBar } from 'expo-status-bar';
-import { TextInput, StyleSheet, Text, View, Button } from 'react-native';
+import { KeyboardAvoidingView, Platform, ScrollView, TouchableOpacity, TextInput, StyleSheet, Text, View, Button } from 'react-native';
 import { useState, useEffect } from 'react';
 
 export default function App() {
 
   const [input, setInput] = useState('');
-  const [groceryList, setGroceryList] = useState([]);
+  const [groceryList, setGroceryList] = useState(['Apples', 'Bananas', 'Watermelons', 'Grapes']);
 
   const addItem = () => {
     if (input.trim() !== '') {
@@ -33,17 +33,17 @@ export default function App() {
       <View style={styles.inputSection}>
 
         <TextInput
-        value={input}
-        onChangeText={setInput}
-        placeholder="Type a grocery item"
-        style={styles.inputSection}
+          value={input}
+          onChangeText={setInput}
+          placeholder="Type a grocery item"
+          placeholderTextColor="#aaa"
+          style={styles.input}
         />
 
-        <Button
-          title='Add item'
-          onPress={addItem}
-          style={styles.buttonSection}
-        />
+        <TouchableOpacity onPress={addItem} style={styles.button}>
+          <Text style={styles.buttonText}>Add Item</Text>
+        </TouchableOpacity>
+        
       </View>
     </View>
   );
@@ -53,28 +53,46 @@ const styles = StyleSheet.create({
     container: {
       backgroundColor: 'black',
       flex: 1,
+      paddingTop: 50,
     },
     listSection: {
-      flex: 1, // takes most of the vertical space
+      flex: 1, 
       paddingTop: 40,
       alignItems: 'center',
       justifyContent: 'center',
     },
     listItem: {
-      marginVertical: 8, // space between each item
+      paddingVertical: 10,
+      paddingHorizontal: 10,
+      borderRadius: 12,
+      marginVertical: 5,
       fontSize: 18,
-      backgroundColor: 'blue',
+      backgroundColor: '#333',
+      textAlign: 'center',
+      color: 'white',
+    },
+    input: {
+      width: '80%',
+      padding: 10,
+      borderRadius: 10,
+      backgroundColor: '#222',
       color: 'white',
     },
     inputSection: {
-      justifyContent: 'center',
+      padding: 100,
       alignItems: 'center',
-      borderWidth: 1,
-      padding: 10, 
-      marginBottom: 10,
-      backgroundColor:'white'
     },
-    buttonSection: {
-      color: 'white'
+    button: {
+      backgroundColor: '#444',
+      paddingVertical: 12,
+      width: '80%',
+      borderRadius: 10,
+      marginTop: 10,
+      alignItems: 'center',
     },
+    buttonText: {
+      color: 'white',
+      fontSize: 16,
+      fontWeight: 'bold',
+    }
 });
