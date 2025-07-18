@@ -1,6 +1,6 @@
 import { registerRootComponent } from 'expo';
 
-import List from './features/groceryList/List';
+import List from './features/groceryList/list';
 
 // registerRootComponent calls AppRegistry.registerComponent('main', () => App);
 // It also ensures that whether you load the app in Expo Go or in a native build,
