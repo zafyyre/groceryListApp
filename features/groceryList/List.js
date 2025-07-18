@@ -1,40 +1,48 @@
 import { ScrollView, TouchableOpacity, TextInput, Text, View, Alert, KeyboardAvoidingView, Platform } from 'react-native';
 import { useState, useEffect } from 'react';
 import { GestureHandlerRootView, Swipeable } from 'react-native-gesture-handler';
+
 import styles from './styles';
+
+import { collection, addDoc, onSnapshot, doc, deleteDoc } from 'firebase/firestore';
+import { db } from '../../src/firebase/firebase';
+
 
 export default function List() {
 
   const [input, setInput] = useState('');
-  const [groceryList, setGroceryList] = useState([
-    'Apples', 'Bananas', 'Watermelons', 'Grapes',
-    'Oranges', 'Strawberries', 'Blueberries', 'Mangoes',
-    'Pineapples', 'Cherries', 'Peaches', 'Plums',
-    'Tomatoes', 'Lettuce', 'Carrots', 'Broccoli',
-    'Cucumbers', 'Spinach', 'Potatoes', 'Onions'
-  ]);
+  const [groceryList, setGroceryList] = useState([]);
 
-  const addItem = () => {
+
+  const addItem = async () => {
     if (input.trim() !== '') {
-      setGroceryList([...groceryList, input]); // ... says keep everything already in the list
-                                               // and just add this new item in the end.
-      setInput('');
+      try {
+        await addDoc(collection(db, 'groceryItems'), {
+          groceryItem: input,
+        });
+        setInput('');
+      } catch (error) {
+        console.error('Error adding item:', error);
+      }
     }
   };
 
-  const handleDelete = (itemToDelete) => {
+
+  const handleDelete = (id) => {
     Alert.alert(
       'Delete Item',
-      `Are you sure you want to delete "${itemToDelete}"?`,
+      'Are you sure you want to delete this item?',
       [
         { text: 'Cancel', style: 'cancel' },
         {
           text: 'Delete',
           style: 'destructive',
-          onPress: () => {
-            setGroceryList((groceryList) =>
-              groceryList.filter((item) => item !== itemToDelete)
-            );
+          onPress: async () => {
+            try {
+              await deleteDoc(doc(db, 'groceryItems', id));
+            } catch (error) {
+              console.error('Error deleting item:', error);
+            }
           },
         },
       ]
@@ -42,8 +50,17 @@ export default function List() {
   };
 
   useEffect(() => {
-    console.log('Grocery list:', groceryList);
-  }, [groceryList]);
+    const unsubscribe = onSnapshot(collection(db, 'groceryItems'), (snapshot) => {
+      const items = snapshot.docs.map(doc => ({
+        id: doc.id,
+        groceryItem: doc.data().groceryItem,
+      }));
+      setGroceryList(items);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
 
   return (
     <GestureHandlerRootView style={{flex: 1}}>
@@ -55,18 +72,16 @@ export default function List() {
           {/* List Section */}
             <ScrollView contentContainerStyle={styles.scrollContainer} keyboardShouldPersistTaps="handled">
               <View style={styles.listSection}>
-                {groceryList.map((groceryItem, index) => (
-                <Swipeable
-                  key={index}
-                  renderRightActions={() => <View style={{ width: 1 }} />} // dummy view just to enable swipe
-                  onSwipeableOpen={() => handleDelete(groceryItem)} // triggers alert
-                >
-                  <View style={styles.listItem}>
-                    <Text style={styles.listItemText}>{groceryItem}</Text>
-                  </View>
-                </Swipeable>
-
-
+                {groceryList.map(({ id, groceryItem }) => (
+                  <Swipeable
+                    key={id}
+                    onSwipeableOpen={() => handleDelete(id)}
+                    renderRightActions={() => <View style={{ width: 1 }} />}
+                  >
+                    <View style={styles.listItem}>
+                      <Text style={styles.listItemText}>{groceryItem}</Text>
+                    </View>
+                  </Swipeable>
                 ))}
               </View>
             </ScrollView>
