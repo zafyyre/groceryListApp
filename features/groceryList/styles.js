@@ -7,21 +7,19 @@ const styles = StyleSheet.create({
     paddingTop: 50,
   },
   listSection: {
-    flex: 1,
-    paddingTop: 40,
-    alignItems: 'center',
-    justifyContent: 'center',
+    paddingTop: 40,            
   },
   listItem: {
     paddingVertical: 15,
     paddingHorizontal: 20,
     borderRadius: 12,
     marginVertical: 5,
-    fontSize: 18,
     backgroundColor: '#333',
-    textAlign: 'left',
+    width: '100%', // full-width
+  },
+  listItemText: {
     color: 'white',
-    width: '100%',
+    fontSize: 18,
   },
   input: {
     width: '80%',
@@ -31,7 +29,7 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   inputSection: {
-    padding: 100,
+    padding: 50,
     alignItems: 'center',
   },
   button: {
@@ -46,7 +44,20 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 16,
     fontWeight: 'bold',
-  }
+  },
+  deleteButton: {
+    backgroundColor: 'red',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 80,
+    borderRadius: 10,
+    height: 47.5,
+    marginVertical: 5,
+  },
+  deleteButtonText: {
+    color: 'white',
+    fontWeight: 'bold',
+  },
 });
 
 export default styles;
