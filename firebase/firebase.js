@@ -1,7 +1,7 @@
 // src/firebase/firebase.js
-import { initializeApp } from 'firebase/app';
-import { getFirestore } from 'firebase/firestore';
-import Constants from 'expo-constants';
+import { initializeApp } from "firebase/app";
+import { getFirestore } from "firebase/firestore";
+import Constants from "expo-constants";
 
 const firebaseConfig = {
   apiKey: Constants.expoConfig.extra.FIREBASE_API_KEY,

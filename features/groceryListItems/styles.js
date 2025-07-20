@@ -1,62 +1,62 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'black',
+    backgroundColor: "black",
     flex: 1,
     paddingTop: 50,
   },
   listSection: {
-    paddingTop: 40,            
+    paddingTop: 40,
   },
   listItem: {
     paddingVertical: 15,
     paddingHorizontal: 20,
     borderRadius: 12,
     marginVertical: 5,
-    backgroundColor: '#333',
-    width: '100%', // full-width
+    backgroundColor: "#333",
+    width: "100%", // full-width
   },
   listItemText: {
-    color: 'white',
+    color: "white",
     fontSize: 18,
   },
   input: {
-    width: '80%',
+    width: "80%",
     padding: 10,
     borderRadius: 10,
-    backgroundColor: '#222',
-    color: 'white',
+    backgroundColor: "#222",
+    color: "white",
   },
   inputSection: {
     padding: 50,
-    alignItems: 'center',
+    alignItems: "center",
   },
   button: {
-    backgroundColor: '#444',
+    backgroundColor: "#444",
     paddingVertical: 12,
-    width: '80%',
+    width: "80%",
     borderRadius: 10,
     marginTop: 10,
-    alignItems: 'center',
+    alignItems: "center",
   },
   buttonText: {
-    color: 'white',
+    color: "white",
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   deleteButton: {
-    backgroundColor: 'red',
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: "red",
+    justifyContent: "center",
+    alignItems: "center",
     width: 80,
     borderRadius: 10,
     height: 47.5,
     marginVertical: 5,
   },
   deleteButtonText: {
-    color: 'white',
-    fontWeight: 'bold',
+    color: "white",
+    fontWeight: "bold",
   },
 });
 
