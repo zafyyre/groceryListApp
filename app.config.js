@@ -2,14 +2,14 @@ import "dotenv/config";
 
 export default {
   expo: {
-    name: "groceryListApp",
-    slug: "groceryListApp",
+    name: "zoosh",
+    slug: "zoosh",
     version: "1.0.0",
     orientation: "portrait",
-    icon: "./assets/icon.png",
+    icon: "./assets/logo.png",
     userInterfaceStyle: "light",
     splash: {
-      image: "./assets/splash-icon.png",
+      image: "./assets/logo.png",
       resizeMode: "contain",
       backgroundColor: "#ffffff",
     },
@@ -18,13 +18,13 @@ export default {
     },
     android: {
       adaptiveIcon: {
-        foregroundImage: "./assets/adaptive-icon.png",
+        foregroundImage: "./assets/logo.png",
         backgroundColor: "#ffffff",
       },
       edgeToEdgeEnabled: true,
     },
     web: {
-      favicon: "./assets/favicon.png",
+      favicon: "./assets/logo.png",
     },
     extra: {
       FIREBASE_API_KEY: process.env.FIREBASE_API_KEY,

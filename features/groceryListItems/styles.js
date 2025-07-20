@@ -10,12 +10,15 @@ const styles = StyleSheet.create({
     paddingTop: 40,
   },
   listItem: {
-    paddingVertical: 15,
+    paddingVertical: 6.25,
     paddingHorizontal: 20,
     borderRadius: 12,
     marginVertical: 5,
     backgroundColor: "#333",
     width: "100%", // full-width
+    flexDirection: "row", // <== add this
+    justifyContent: "space-between", // space between text and checkmark
+    alignItems: "center", // vertically center content
   },
   listItemText: {
     color: "white",
@@ -57,6 +60,30 @@ const styles = StyleSheet.create({
   deleteButtonText: {
     color: "white",
     fontWeight: "bold",
+  },
+  checkContainer: {
+    width: 40,
+    height: 40,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  checkmark: {
+    width: 40,
+    height: 40,
+    transform: [{ scale: 4 }],
+  },
+  textContainer: {
+    flex: 1,
+    justifyContent: "center",
+    marginLeft: 12.5,
+  },
+  emptyCircle: {
+    width: 30,
+    height: 30,
+    borderRadius: 15,
+    borderWidth: 2,
+    borderColor: "#ccc",
+    backgroundColor: "transparent",
   },
 });
 

@@ -14,6 +14,8 @@ import {
   Swipeable,
 } from "react-native-gesture-handler";
 import stringSimilarity from "string-similarity";
+import LottieView from "lottie-react-native";
+import { Audio } from "expo-av";
 
 import styles from "./styles";
 import {
@@ -30,6 +32,8 @@ export default function GroceryListItems() {
   const [input, setInput] = useState("");
   const [groceryList, setGroceryList] = useState([]);
   const [editingItemId, setEditingItemId] = useState(null);
+  const [checkedItems, setCheckedItems] = useState({});
+  const [sound, setSound] = useState();
 
   // Listen to grocery items from Firestore constantly
   // and update the state when items change
@@ -48,12 +52,6 @@ export default function GroceryListItems() {
       (item) => item.groceryItem.toLowerCase() === trimmedInput.toLowerCase()
     );
 
-    // Check for fuzzy matches using string similarity`
-    // This will find items that are similar but not exact
-    // based on a threshold
-    // what is the threshold for similarity?
-    // Adjust the threshold as needed
-    // to control how similar items need to be to trigger a warning
     const fuzzyMatch = groceryList.find(
       (item) =>
         stringSimilarity.compareTwoStrings(
@@ -103,6 +101,25 @@ export default function GroceryListItems() {
     }
   };
 
+  // Handle checkmark press to delete the item
+  const handleCheck = (id) => {
+    // Unpack the current checked items
+    // and set the item as checked
+    // After a short delay, delete the item
+    // to allow the animation to play
+    // before removing it from the list
+    const newCheckedItems = { ...checkedItems };
+    newCheckedItems[id] = true;
+    setCheckedItems(newCheckedItems);
+
+    // 🔊 Play ding sound
+    playDing();
+
+    setTimeout(() => {
+      deleteItem(id);
+    }, 1000); // Give it a second to play the animation before deleting
+  };
+
   const handleDelete = (id, name) => {
     Alert.alert("Delete Item", `Are you sure you want to delete "${name}"?`, [
       { text: "Cancel", style: "cancel" },
@@ -120,6 +137,20 @@ export default function GroceryListItems() {
     ]);
   };
 
+  async function playDing() {
+    const { sound } = await Audio.Sound.createAsync(
+      require("../../assets/sounds/ding.mp3")
+    );
+    await sound.playAsync();
+    // Unload sound after playing
+    sound.setOnPlaybackStatusUpdate((status) => {
+      if (status.didJustFinish) {
+        sound.unloadAsync();
+      }
+    });
+  }
+
+  // Render the grocery list items
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <KeyboardAvoidingView
@@ -140,11 +171,30 @@ export default function GroceryListItems() {
                 >
                   <View style={styles.listItem}>
                     <TouchableOpacity
+                      onPress={() => handleCheck(id, groceryItem)}
+                      style={styles.checkContainer}
+                    >
+                      {checkedItems[id] ? (
+                        <LottieView
+                          source={require("../../assets/checkmark.json")}
+                          autoPlay
+                          loop={false}
+                          style={styles.checkmark}
+                          resizeMode="contain" // or "contain"
+                        />
+                      ) : (
+                        <View style={styles.emptyCircle} />
+                      )}
+                    </TouchableOpacity>
+
+                    {/* 📝 Grocery Item Text */}
+                    <TouchableOpacity
                       onPress={() => {
                         setInput(groceryItem);
                         setEditingItemId(id);
                         inputRef.current.focus();
                       }}
+                      style={styles.textContainer}
                     >
                       <Text style={styles.listItemText}>{groceryItem}</Text>
                     </TouchableOpacity>
