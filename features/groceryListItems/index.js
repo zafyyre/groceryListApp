@@ -112,12 +112,12 @@ export default function GroceryListItems() {
     newCheckedItems[id] = true;
     setCheckedItems(newCheckedItems);
 
-    // 🔊 Play ding sound
+    // Play ding sound
     playDing();
 
     setTimeout(() => {
       deleteItem(id);
-    }, 1000); // Give it a second to play the animation before deleting
+    }, 1500); // Give it a second and a half to play the animation before deleting
   };
 
   const handleDelete = (id, name) => {
