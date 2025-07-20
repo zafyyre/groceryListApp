@@ -33,7 +33,6 @@ export default function GroceryListItems() {
   const [groceryList, setGroceryList] = useState([]);
   const [editingItemId, setEditingItemId] = useState(null);
   const [checkedItems, setCheckedItems] = useState({});
-  const [sound, setSound] = useState();
 
   // Listen to grocery items from Firestore constantly
   // and update the state when items change
@@ -96,6 +95,7 @@ export default function GroceryListItems() {
         await addItem(trimmedInput);
       }
       setInput("");
+      setEditingItemId(null);
     } catch (e) {
       console.error("Error submitting item:", e);
     }
@@ -212,6 +212,9 @@ export default function GroceryListItems() {
               placeholder="Type a grocery item"
               placeholderTextColor="#aaa"
               style={styles.input}
+              onBlur={() => {
+                setEditingItemId(null); // Exit update mode when tapping away
+              }}
             />
             <TouchableOpacity onPress={handleSubmit} style={styles.button}>
               <Text style={styles.buttonText}>

@@ -11,14 +11,15 @@ const styles = StyleSheet.create({
   },
   listItem: {
     paddingVertical: 6.25,
-    paddingHorizontal: 20,
+    paddingHorizontal: 12,
     borderRadius: 12,
     marginVertical: 5,
     backgroundColor: "#333",
-    width: "100%", // full-width
-    flexDirection: "row", // <== add this
-    justifyContent: "space-between", // space between text and checkmark
-    alignItems: "center", // vertically center content
+    width: "95%",
+    alignSelf: "center",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
   listItemText: {
     color: "white",
